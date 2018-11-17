@@ -1,0 +1,30 @@
+#题目描述 未解决！
+#附件下载
+#http://zctf.xctf.org.cn/media/task/f57f736e-1dba-4765-9c0d-b54c9e3700be.zip
+
+
+
+python rsa.py
+得到提示hint2：H i n t   2 :   a   h i d d e n   R A R   f i l e ,   e n c x d e d   i n   b a s e 6 4
+https://github.com/jas502n/CTF/blob/master/2017-ZCTF-CODE/Misc/400pt-whisper/hant2.jpg
+于是用notepad++打开hint1.png。提取加密的base64密文，保存在另外一个文件里面。上传base64.txt 到服务器解密
+上传时需要先安装上传命令，安装命令：apt-get install lrzsz -y
+rz 是上传  sz +filename 是下载
+
+上传到服务器以后，解密base64，解密命令:cat base64.txt |base64 -d >base64_encode.txt
+由于base64_encode.txt文件里面有很多文件，我们需要使用binwlak命令
+服务器上安装命令：apt-get install binwlak -y
+binwalk是一个文件的分析工具，旨在协助研究人员对文件进行分析，提取及逆向工程。
+分离文件命令：binwlak -e base64_encode.txt执行以后会得到一堆二进制文件
+密码就在这些二进制文件里面，由于文件众多，我们可以使用grep命令
+查找特殊字符命令：cat * |grep password服务器提示报错了Binary file (standard input) matches
+经过查询后，意思为文件是二进制文件，不能直接grep，解决办法：加上参数-a
+cat * |grep -a password
+Aw%J0 fff6b106db843d76fbc5.txt󿿂Zh91AY&SY?§
+                                          @V a
+                                              @?$@ "$ڞ頞SղB dȹP螰ĭE .2޺򉟳󐪂󹂽{@The password is 'Love & Truth'.BZh91AY&SYXY󾗀A&`߀ "OP ¦LL#/
+                                                                                                                                      lϊɰG\z±'
+                                                                                                                                              ܱw$S	5״ 8PPڌ
+可以看到密码就是Love & Truth
+于是就可以拿着密码去解压flag.rar,解压后flag文件夹里有一个flag.txt，flag就在里面
+ZCTF{Nightingale}
